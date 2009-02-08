@@ -1,6 +1,6 @@
 package POE::Component::Algorithm::Evolutionary;
 
-use lib qw( ../../../../../Algorithm-Evolutionary/lib ); #For development and perl syntax mode
+use lib qw( ../../../../../Algorithm-Evolutionary/lib ../Algorithm-Evolutionary/lib ); #For development and perl syntax mode
 
 use warnings;
 use strict;
@@ -90,98 +90,90 @@ This document describes Poe::Component::Algorithm::Evolutionary version 0.0.3
 
 =head1 SYNOPSIS
 
-    use Poe::Component::Algorithm::Evolutionary;
+use Poe::Component::Algorithm::Evolutionary;
 
-=for author to fill in:
-    Brief code example(s) here showing commonest usage(s).
-    This section will be as far as many users bother reading
-    so make it as educational and exeplary as possible.
-  
-  
+use Algorithm::Evolutionary qw( Individual::BitString Op::Creator 
+				Op::CanonicalGA Op::Bitflip 
+				Op::Crossover Op::GenerationalTerm
+				Fitness::Royal_Road);
+
+my $bits = shift || 64;
+my $block_size = shift || 4;
+my $pop_size = shift || 256; #Population size
+my $numGens = shift || 200; #Max number of generations
+my $selection_rate = shift || 0.2;
+
+#Initial population
+my $creator = new Algorithm::Evolutionary::Op::Creator( $pop_size, 'BitString', { length => $bits });
+
+# Variation operators
+my $m = Algorithm::Evolutionary::Op::Bitflip->new( 1 );
+my $c = Algorithm::Evolutionary::Op::Crossover->new(2, 4);
+
+# Fitness function: create it and evaluate
+my $rr = new  Algorithm::Evolutionary::Fitness::Royal_Road( $block_size );
+
+my $generation = Algorithm::Evolutionary::Op::CanonicalGA->new( $rr , $selection_rate , [$m, $c] ) ;
+my $gterm = new Algorithm::Evolutionary::Op::GenerationalTerm 10;
+
+POE::Component::Algorithm::Evolutionary->new( Fitness => $rr,
+					      Creator => $creator,
+					      Single_Step => $generation,
+					      Terminator => $gterm,
+					      Alias => 'Canonical' );
+
+
+$poe_kernel->run();
+
+
 =head1 DESCRIPTION
 
-=for author to fill in:
-    Write a full description of the module and its features here.
-    Use subsections (=head2, =head3) as appropriate.
-
+Not a lot here: it creates a component that uses POE to run an
+evolutionary algorithm 
 
 =head1 INTERFACE 
 
-=for author to fill in:
-    Write a separate section listing the public components of the modules
-    interface. These normally consist of either subroutines that may be
-    exported, or methods that may be called on objects belonging to the
-    classes provided by the module.
+=head2 new
 
+POE::Component::Algorithm::Evolutionary->new( Fitness => $rr,
+					      Creator => $creator,
+					      Single_Step => $generation,
+					      Terminator => $gterm,
+					      Alias => 'Canonical' );
 
-=head1 DIAGNOSTICS
+It's called with all components needed to run an evolutionary
+algorithm; to keep everything flexible they are created in
+advance. See the C<scripts/> directory for an example.
 
-=for author to fill in:
-    List every single error and warning message that the module can
-    generate (even the ones that will "never happen"), with a full
-    explanation of each problem, one or more likely causes, and any
-    suggested remedies.
+=head2 start
 
-=over
+Called internally for initializing population
 
-=item C<< Error message here, perhaps with %s placeholders >>
+=head2 generation
 
-[Description of error here]
+This is run once for each generation, until end condition is met
 
-=item C<< Another error message here >>
+=head2 finishing
 
-[Description of error here]
-
-[Et cetera, et cetera]
-
-=back
-
+Called when everything is over. Prints winner
 
 =head1 CONFIGURATION AND ENVIRONMENT
 
-=for author to fill in:
-    A full explanation of any configuration system(s) used by the
-    module, including the names and locations of any configuration
-    files, and the meaning of any environment variables or properties
-    that can be set. These descriptions must also include details of any
-    configuration language used.
-  
 Poe::Component::Algorithm::Evolutionary requires no configuration files or environment variables.
 
 
 =head1 DEPENDENCIES
 
-=for author to fill in:
-    A list of all the other modules that this module relies upon,
-    including any restrictions on versions, and an indication whether
-    the module is part of the standard Perl distribution, part of the
-    module's distribution, or must be installed separately. ]
-
-None.
+Main dependence is L<Algorithm::Evolutionary>; however, it's not
+included by default, since you must pick and choose the modules you
+are going to actually use.
 
 
 =head1 INCOMPATIBILITIES
 
-=for author to fill in:
-    A list of any modules that this module cannot be used in conjunction
-    with. This may be due to name conflicts in the interface, or
-    competition for system or program resources, or due to internal
-    limitations of Perl (for example, many modules that use source code
-    filters are mutually incompatible).
-
 None reported.
 
-
 =head1 BUGS AND LIMITATIONS
-
-=for author to fill in:
-    A list of known problems with the module, together with some
-    indication Whether they are likely to be fixed in an upcoming
-    release. Also a list of restrictions on the features the module
-    does provide: data types that cannot be handled, performance issues
-    and the circumstances in which they may arise, practical
-    limitations on the size of data sets, special cases that are not
-    (yet) handled, etc.
 
 No bugs have been reported.
 

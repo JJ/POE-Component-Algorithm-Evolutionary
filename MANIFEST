@@ -2,8 +2,6 @@ Changes
 MANIFEST
 Makefile.PL
 README
-lib/Poe/Component/Algorithm/Evolutionary.pm
+lib/POE/Component/Algorithm/Evolutionary.pm
 t/00.load.t
-t/perlcritic.t
-t/pod-coverage.t
-t/pod.t
+scripts/ga-canonical.pl
