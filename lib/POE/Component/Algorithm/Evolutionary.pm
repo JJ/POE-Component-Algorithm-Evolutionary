@@ -186,6 +186,10 @@ It's called with all components needed to run an evolutionary
 algorithm; to keep everything flexible they are created in
 advance. See the C<scripts/> directory for an example.
 
+=head2 new_population
+
+Called with a hashref to the new population to incorporate
+
 =head2 start
 
 Called internally for initializing population
