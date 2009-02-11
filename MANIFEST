@@ -5,4 +5,5 @@ README
 lib/POE/Component/Algorithm/Evolutionary.pm
 t/00.load.t
 t/01-accessors.t
+t/02-canonical-ga.t
 scripts/canonical-ga.pl

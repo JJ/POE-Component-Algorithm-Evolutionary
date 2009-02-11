@@ -16,12 +16,20 @@ sub AUTOLOAD {
   my $self = shift;
   our $AUTOLOAD;
   my ($method) = ($AUTOLOAD =~ /::(\w+)$/);
-  my $instanceVar = lcfirst($method);
+  return if !$self->{'session'}; # Before creation or after destruction
   my $heap = $self->{'session'}->get_heap();
-  if (defined ($heap->{$instanceVar})) {
-      return $heap->{$instanceVar};
-  }    
+  if ( $method =~ /^set_(\w+)/ ) {
+      my $instanceVar = $1;
+      if (defined ($heap->{$instanceVar})) {
+	  $heap->{$instanceVar} = shift;
+      }
+  } else {    
+      my $instanceVar = lcfirst($method);
+      if (defined ($heap->{$instanceVar})) {
+	  return $heap->{$instanceVar};
+      }    
   
+  }
 }
 
 
