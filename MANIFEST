@@ -4,4 +4,5 @@ Makefile.PL
 README
 lib/POE/Component/Algorithm/Evolutionary.pm
 t/00.load.t
+t/01-accessors.t
 scripts/canonical-ga.pl
