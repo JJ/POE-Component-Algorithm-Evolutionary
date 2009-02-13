@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#-*- CPerl -*-
 
 use lib qw( ../../lib ../lib ../../Algorithm-Evolutionary/lib );
 

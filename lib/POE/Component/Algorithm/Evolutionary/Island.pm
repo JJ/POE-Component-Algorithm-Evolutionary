@@ -1,4 +1,4 @@
-package POE::Component::Algorithm::Evolutionary;
+package POE::Component::Algorithm::Evolutionary::Island;
 
 use lib qw( ../../../../../Algorithm-Evolutionary/lib ../Algorithm-Evolutionary/lib ); #For development and perl syntax mode
 
@@ -9,15 +9,22 @@ use Carp;
 our $VERSION =   sprintf "%d.%03d", q$Revision$ =~ /(\d+)\.(\d+)/g; 
 
 use POE;
-use base POE::Component::Algorithm::Evolutionary;
+use base 'POE::Component::Algorithm::Evolutionary';
 
 # Module implementation here
 sub new {
   my $class = shift;
   my %arg = @_;
   my $self = $class->SUPER::new( %arg );
-  my $peers = delete $arg{'peers'} || croak "Need a list of peers";
+  $self->{'peers'} = delete $arg{'Peers'} || croak "Need a list of peers";
   return $self;
+}
+
+sub start {
+    my $self = shift;
+    _start_base( @_ );
+    $_[HEAP]->{'peers'} = $self->{'peers'};
+    $_[KERNEL]->yield('generation');
 }
 
 
@@ -85,6 +92,10 @@ POE::Component::Algorithm::Evolutionary->new( Fitness => $rr,
                                               Peers => \@peers);
 
 Basically like PoCoAE, but with peers
+
+=head start
+
+Not a big deal; mainly for initializing the population via calling ancestor
 
 =head1 CONFIGURATION AND ENVIRONMENT
 
