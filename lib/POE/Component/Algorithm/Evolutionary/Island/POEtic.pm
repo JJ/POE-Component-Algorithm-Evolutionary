@@ -93,6 +93,12 @@ POE::Component::Algorithm::Evolutionary->new( Fitness => $rr,
 
 Basically like PoCoAE, but with peers
 
+=head2 after_step
+
+Not to be called from outside, is the one that does the actual
+interchange between islands.
+
+
 =head1 CONFIGURATION AND ENVIRONMENT
 
 POE::Component::Algorithm::Evolutionary requires no configuration files or environment variables.

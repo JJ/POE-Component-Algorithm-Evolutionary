@@ -93,7 +93,7 @@ POE::Component::Algorithm::Evolutionary->new( Fitness => $rr,
 
 Basically like PoCoAE, but with peers
 
-=head start
+=head2 start
 
 Not a big deal; mainly for initializing the population via calling ancestor
 
