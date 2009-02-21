@@ -49,7 +49,7 @@ my $poco_ae_session = POE::Component::Algorithm::Evolutionary->new( Fitness => $
 								    Alias => 'Canonical' );
 $poe_kernel->run();
 my $this_average = average( $poco_ae_session->population );
-$gterm = new Algorithm::Evolutionary::Op::GenerationalTerm 10;
+$gterm = new Algorithm::Evolutionary::Op::GenerationalTerm 20;
 #Restart session
 $poco_ae_session = POE::Component::Algorithm::Evolutionary->new( Fitness => $rr,
 								 Creator => $creator,
