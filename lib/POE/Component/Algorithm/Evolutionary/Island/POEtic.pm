@@ -40,6 +40,7 @@ POE sessions
 
 =head1 SYNOPSIS
 
+  use POE;
   use POE::Component::Algorithm::Evolutionary::Island::POEtic;
 
   use Algorithm::Evolutionary qw( Individual::BitString Op::Creator 
