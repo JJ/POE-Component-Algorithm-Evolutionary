@@ -46,7 +46,6 @@ POE::Component::Algorithm::Evolutionary->new( Fitness => $rr,
 					      Terminator => $gterm,
 					      Alias => 'Canonical' );
 
-
 $poe_kernel->run();
 
 =head1 LICENCE AND COPYRIGHT
