@@ -1,4 +1,6 @@
-POE-Component-Algorithm-Evolutionary version 0.0.1
+#POE-Component-Algorithm-Evolutionary 
+
+Run evolutionary algorithms using the POE event loop
 
 INSTALLATION
 
